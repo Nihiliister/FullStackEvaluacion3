@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/organisms/Navbar'; 
 import Home from './pages/Home'; 
 import Login from './pages/Login';
-import Registro from './pages/REgistro';
+import Registro from './pages/Registro';
 import Products from './components/organisms/Products'; 
 import ProductDetail from './pages/ProductDetail';
 import './styles/templates/global.css';
