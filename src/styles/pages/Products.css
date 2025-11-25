@@ -1,0 +1,44 @@
+.products-page {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.carousel-container {
+  border: 2px solid #ddd;
+  padding: 15px;
+  margin-bottom: 30px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Grid de productos */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+/* Tarjetas */
+.product-card {
+  border: 2px solid #ddd;
+  padding: 15px;
+  text-align: center;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.btn-product {
+  padding: 6px 18px;
+  border: 1px solid #333;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}

@@ -1,0 +1,38 @@
+body {
+    background-color: #e7ecf2; /* mismo color gris claro de la imagen */
+}
+
+/* Contenedor general */
+.home-container {
+    max-width: 900px;
+}
+
+/* Tarjetas */
+.card-section {
+    background: rgb(100, 0, 139);
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Tarjeta grande izquierda */
+.big-card {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+/* Imagen circular */
+.profile-img {
+    width: 60%;
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+
+/* Textos */
+h2, h3 {
+    font-weight: bold;
+}
+
+p {
+    font-size: 14px;
+}
