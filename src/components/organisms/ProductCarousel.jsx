@@ -1,35 +1,39 @@
+import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
-import img1 from "../../assets/img/productsIMG/TurboAbuela.webp";
-import img2 from "../../assets/img/productsIMG/Souvenir.webp";
-import img3 from "../../assets/img/productsIMG/Boina.webp";
+import api from "../../service/Api";
 
 function ProductCarousel() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const cargarProductos = async () => {
+      try {
+        const res = await api.get("/productos");
+        setProducts(res.data.slice(0, 3)); // solo los 3 primeros 
+      } catch (err) {
+        console.error("Error al cargar productos:", err);
+      }
+    };
+
+    cargarProductos();
+  }, []);
+
   return (
     <div className="carousel-container">
       <Carousel>
-        <Carousel.Item>
-          <img className="d-block carousel-img" src={img1} alt="Slide 1" />
-          <div className="nl-slide-caption">
-            <h2 className="tituloCarrusel">Turbo Abuela</h2>
-            <p className="DescripcionProducto">mucha plata</p>
-          </div>
-        </Carousel.Item>
-
-        <Carousel.Item>
-          <img className="d-block carousel-img" src={img2} alt="Slide 2" />
-          <div className="nl-slide-caption">
-            <h2 className="tituloCarrusel">Souvenir</h2>
-            <p className="DescripcionProducto">mucha plata</p>
-          </div>
-        </Carousel.Item>
-
-        <Carousel.Item>
-          <img className="d-block carousel-img" src={img3} alt="Slide 3" />
-          <div className="nl-slide-caption">
-            <h2 className="tituloCarrusel">Boina</h2>
-            <p className="DescripcionProducto">mucha plata</p>
-          </div>
-        </Carousel.Item>
+        {products.map((prod) => (
+          <Carousel.Item key={prod.id}>
+            <img
+              className="d-block carousel-img"
+              src={prod.image || "https://via.placeholder.com/800x400"}
+              alt={prod.nombre}
+            />
+            <div className="nl-slide-caption">
+              <h2 className="tituloCarrusel">{prod.nombre}</h2>
+              <p className="DescripcionProducto">{prod.descripcion}</p>
+            </div>
+          </Carousel.Item>
+        ))}
       </Carousel>
     </div>
   );

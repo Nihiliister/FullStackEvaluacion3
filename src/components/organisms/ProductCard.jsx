@@ -1,20 +1,23 @@
-import { Card } from 'react-bootstrap';
-import Image from '../atoms/Image';
-import Button from '../atoms/Button';
-import CardBody from '../molecules/CardBody';
 import { useNavigate } from 'react-router-dom';
 
 function ProductCard({ product }) {
-
   const navigate = useNavigate();
 
   return (
     <div className="product-card">
-      <img src={product.image} alt={product.name} className="card-img" />
+      {/*IMAGEN*/}
+      <img
+        src={product.imagenUrl || "/placeholder.jpg"}
+        alt={product.nombre}
+        className="card-img"
+      />
 
       <div className="card-info">
-        <h4>{product.name}</h4>
-        <p>{product.description}</p>
+        {/* NOMBRE */}
+        <h4>{product.nombre}</h4>
+
+        {/* DESCRIPCIÓN */}
+        <p>{product.descripcion}</p>
 
         <button
           className="btn-product"

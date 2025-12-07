@@ -1,57 +1,85 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import products from '../data/products';
 import Image from '../components/atoms/Image';
 import Text from '../components/atoms/Text';
-
-// IMPORTACIÓN CORRECTA DEL CARRITO
-import { getCart, addToCart, removeFromCart, clearCart } from "../data/CartCon";
+import { addToCart } from "../data/CartCon";
+import { useEffect, useState } from 'react';
+import api from '../service/Api';
 
 function ProductDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const product = products.find((p) => p.id === parseInt(id));
+    const [product, setProduct] = useState(null);
+    const [otherProducts, setOtherProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-    if (!product) {
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const detalleRes = await api.get(`/productos/${id}`);
+                const productBack = detalleRes.data;
+                setProduct(productBack);
+
+                const listRes = await api.get("/productos");
+                const otros = listRes.data.filter((p) => p.id !== productBack.id);
+                setOtherProducts(otros);
+            } catch (err) {
+                console.error("Error al cargar el producto", err);
+                setError("Error al cargar el producto");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [id]);
+
+    if (loading) {
         return (
             <Container className="my-5">
-                <h1>Producto no encontrado</h1>
+                <h1>Cargando producto desde backend...</h1>
             </Container>
         );
     }
 
-    const otherProducts = products.filter((p) => p.id !== product.id);
+    if (error || !product) {
+        return (
+            <Container className="my-5">
+                <h1>{error || "producto no encontrado"}</h1>
+            </Container>
+        );
+    }
 
     const handleAddToCart = () => {
         addToCart(product);
         alert("Producto agregado al carrito");
     };
 
+    const imageSrc = product.image || "https://via.placeholder.com/600x400";
+
     return (
         <Container className="my-5">
             <Row>
-
-                {/* IMAGEN + DESCRIPCIÓN */}
                 <Col md={8}>
                     <Card className="mb-4">
                         <Image
-                            src={product.image}
-                            alt={product.name}
+                            src={imageSrc}
+                            alt={product.nombre}
                             className="w-100"
                         />
                     </Card>
 
                     <Card className="p-4">
-                        <Text variant="h2">{product.name}</Text>
-                        <Text variant="p">{product.description}</Text>
+                        <Text variant="h2">{product.nombre}</Text>
+                        <Text variant="p">{product.descripcion}</Text>
                     </Card>
                 </Col>
 
-                {/* PRECIO + BOTÓN */}
                 <Col md={4}>
                     <Card className="p-4 mb-4">
-                        <Text variant="h4">Precio: ${product.price}</Text>
+                        <Text variant="h4">Precio ${product.precio}</Text>
+
                         <button
                             className="btn-product mt-3"
                             onClick={handleAddToCart}
@@ -67,34 +95,38 @@ function ProductDetail() {
                         </button>
                     </Card>
                 </Col>
-
             </Row>
 
-            {/* PRODUCTOS RELACIONADOS */}
             <h3 className="mt-5 mb-3">Otros productos</h3>
-            <Row>
-                {otherProducts.map((item) => (
-                    <Col md={3} sm={6} xs={12} key={item.id}>
-                        <Card className="mb-3">
-                            <Image
-                                src={item.image}
-                                alt={item.name}
-                                className="w-100"
-                            />
-                            <Card.Body>
-                                <Text variant="h5">{item.name}</Text>
-                                <button
-                                    className="btn-product"
-                                    onClick={() => navigate(`/products/${item.id}`)}
-                                >
-                                    Ver más
-                                </button>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
 
+            <Row>
+                {otherProducts.map((item) => {
+                    const otherImageSrc = item.image || "https://via.placeholder.com/300x200";
+
+                    return (
+                        <Col md={3} sm={6} xs={12} key={item.id}>
+                            <Card className="mb-3">
+                                <Image
+                                    src={otherImageSrc}
+                                    alt={item.nombre}
+                                    className="w-100"
+                                />
+
+                                <Card.Body>
+                                    <Text variant="h5">{item.nombre}</Text>
+
+                                    <button
+                                        className="btn-product"
+                                        onClick={() => navigate(`/productos/${item.id}`)} 
+                                    >
+                                        Ver más
+                                    </button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    );
+                })}
+            </Row>
         </Container>
     );
 }
