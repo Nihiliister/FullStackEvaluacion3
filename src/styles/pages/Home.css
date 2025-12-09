@@ -1,38 +1,40 @@
-body {
-    background-color: #e7ecf2; /* mismo color gris claro de la imagen */
-}
-
 /* Contenedor general */
-.home-container {
-    max-width: 900px;
+.home-wrapper {
+  text-align: center;
+  padding-top: 30px;
 }
 
-/* Tarjetas */
-.card-section {
-    background: rgb(100, 0, 139);
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
+/* LOGO */
+.home-logo {
+  width: 400px;
+  max-width: 60%;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px auto;
 }
 
-/* Tarjeta grande izquierda */
-.big-card {
-    text-align: center;
-    padding: 40px 20px;
+.brand-title {
+  font-size: 28px;
+  font-weight: bold;
 }
 
-/* Imagen circular */
-.profile-img {
-    width: 60%;
-    max-width: 200px;
-    margin-bottom: 20px;
+.brand-subtitle {
+  font-size: 16px;
+  margin-bottom: 30px;
 }
 
-/* Textos */
-h2, h3 {
-    font-weight: bold;
+/* PORTADA */
+.cover-section {
+  margin-top: 20px;
 }
 
-p {
-    font-size: 14px;
+.home-cover{
+  width: 500px !important;          /* mucho más pequeña */
+  max-width: 60% !important;    /* límite máximo */
+  min-width: 1000px !important;    /* no se hace demasiado pequeña */
+  height: auto ;
+  border-radius: 12px !important;
+  display: block !important;
+  margin: 0 auto 40px auto !important;
+  object-fit: cover !important;
 }

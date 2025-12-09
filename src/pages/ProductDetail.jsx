@@ -18,10 +18,12 @@ function ProductDetail() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                //obtener productos por id
                 const detalleRes = await api.get(`/productos/${id}`);
                 const productBack = detalleRes.data;
                 setProduct(productBack);
 
+                //obtener otros productos
                 const listRes = await api.get("/productos");
                 const otros = listRes.data.filter((p) => p.id !== productBack.id);
                 setOtherProducts(otros);
@@ -38,7 +40,7 @@ function ProductDetail() {
     if (loading) {
         return (
             <Container className="my-5">
-                <h1>Cargando producto desde backend...</h1>
+                <h1>Cargando productos...</h1>
             </Container>
         );
     }
@@ -56,7 +58,7 @@ function ProductDetail() {
         alert("Producto agregado al carrito");
     };
 
-    const imageSrc = product.image || "https://via.placeholder.com/600x400";
+    const imageSrc = product.imagenUrl || "/placeholder.webp";
 
     return (
         <Container className="my-5">
@@ -73,6 +75,8 @@ function ProductDetail() {
                     <Card className="p-4">
                         <Text variant="h2">{product.nombre}</Text>
                         <Text variant="p">{product.descripcion}</Text>
+                        <Text variant='p'>Medida: {product.medida} </Text>
+                        <Text variant='p'>Stoc:{product.stock} </Text>
                     </Card>
                 </Col>
 
@@ -101,7 +105,7 @@ function ProductDetail() {
 
             <Row>
                 {otherProducts.map((item) => {
-                    const otherImageSrc = item.image || "https://via.placeholder.com/300x200";
+                    const otherImageSrc = item.imagenUrl || "placeholder.webp";
 
                     return (
                         <Col md={3} sm={6} xs={12} key={item.id}>
@@ -117,7 +121,7 @@ function ProductDetail() {
 
                                     <button
                                         className="btn-product"
-                                        onClick={() => navigate(`/productos/${item.id}`)} 
+                                        onClick={() => navigate(`/products/${item.id}`)} 
                                     >
                                         Ver más
                                     </button>

@@ -9,16 +9,38 @@ function Registro(){
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
 
-    const handleRegistro = (e) => {
+    const handleRegistro = async(e) => {
         e.preventDefault();
 
         if (password !== confirm){
             alert("La contraseña no coincide");
             return;
         }
-
+        //se supone que con esto llamamos lo que neccesita el back
+        const nuevoUsuario = {
+          nombre:"Nuevo",
+          apellido:"Usuario",
+          telefono:"0",
+          direccion:"Sin direccion",
+          email: email,
+          contrasena: password
+        };
+        try{
+          const response = await fetch("http://localhost:8080/api/usuarios/registro",{
+            method: "POST",
+            headers:{"Content-Type": "application/json"},
+            body: JSON.stringify(nuevoUsuario)
+          });
+          if(!response.ok){
+            const errorText = await response.text();
+            alert("Error al registrar usuario: ", errorText);
+          }
         alert("Usuario registrado: ${email}");
         navigate("/login");
+        }catch(error){
+          alert("Error conectando con el servidor");
+          console.log(error);
+        }
     };
 
     return(

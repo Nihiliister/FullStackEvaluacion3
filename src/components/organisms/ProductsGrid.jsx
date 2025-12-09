@@ -8,6 +8,9 @@ function ProductsGrid() {
   useEffect(() => {
     const fetchProductos = async () => {
       const data = await ProductoService.getAllProductos();
+
+      console.log("BACKEND RESPONDE:", data);
+      
       setProducts(data);
     };
 

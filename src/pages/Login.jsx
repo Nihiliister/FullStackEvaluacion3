@@ -8,11 +8,43 @@ function Login(){
     const[password, setPassword]= useState("");
     
     const navigate = useNavigate();
-    const handleLogin =(e) => {
+
+
+    const handleLogin = async(e) => {
         e.preventDefault();
 
-        alert("inicio de sesión correcto");
-        navigate("/products");
+        //guarda la sesion en localstorage
+        try{
+            const response = await fetch("http://localhost:8080/api/usuarios/login",{
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify({
+                    email: email,
+                    contrasena: password
+                })
+            });
+            if (!response.ok){
+                alert("credenciales incorrectas");
+                return;
+            }
+            const usuario = await response.json();
+
+            //abora si guardamos el usuario con rol
+            localStorage.setItem("usuario", JSON.stringify(usuario));
+
+            window.dispatchEvent(new Event("usuario-login"));
+            alert("Inicio de sesión correcto");
+
+            //rol de admin para su panel
+            if(usuario.rol === "admin"){
+                navigate("/admin");
+            }else{
+                navigate("/products");
+            }
+        }catch(error){
+            console.error("Error en login:", error);
+            alert("No se pudo conectar con el servidor");
+        }
     };
 
     return(

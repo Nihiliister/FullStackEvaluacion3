@@ -1,11 +1,14 @@
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import "../styles/pages/Carrito.css";
+import { useNavigate } from "react-router-dom";
 
 import { getCart, removeFromCart } from "../data/CartCon";
 
 function Carrito() {
   const [cart, setCart] = useState([]);
+  const [metodo, setMetodo]= useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCart(getCart());
@@ -60,17 +63,51 @@ function Carrito() {
 
         {/* RESUMEN DE COMPRA */}
         <Col md={4}>
+
+        <Button
+            variant="secondary" 
+            className="w-100 mb-3"
+            onClick={() => navigate("/products")}
+        >
+            ← Volver a productos
+        </Button>
           <Card className="cart-summary">
             <h4>Total: ${total}</h4>
 
             <p className="mt-3">Método de pago</p>
 
             <div className="payment-methods">
-              <Button variant="outline-secondary">Transferencia</Button>
-              <Button variant="outline-secondary">Débito/Crédito</Button>
+              <Button variant= {metodo == "transferencia" ? "secondary": "outline-secondary"}
+              onClick={() => setMetodo("transferencia")}
+              className="me-2"
+              >
+                Transferencia
+              </Button>
+              <Button variant={metodo == "tarjeta" ? "secondary": "outline-secondary"}
+              onClick={()=> setMetodo("tarjeta")}
+              >
+                Débito/Crédito
+              </Button>
             </div>
 
-            <Button variant="primary" className="w-100">
+            <Button 
+              variant="primary" 
+              className="w-100"
+              disabled={cart.length === 0}
+              onClick={() => {
+                if (cart.length === 0){
+                  alert("Tu carrito está vacío, agrega productos antes de pagar.");
+                  return;
+                }
+                if(!metodo){
+                    alert("Seleccione un metodo de pago para continuar.");
+                    return;
+                  }
+                  localStorage.setItem("pago_tipo", metodo);
+
+                navigate("/pago");
+              }}
+              >
               Pagar
             </Button>
           </Card>
