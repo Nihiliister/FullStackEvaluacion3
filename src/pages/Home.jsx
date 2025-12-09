@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import "../styles/pages/Home.css";
 import KatHubIcon from "../assets/img/background/KatHubOfficial.webp";
-import Portada from "../assets/img/background/Portada.webp"
+import Portada from "../assets/img/background/portada.webp"
 
 function Home() {
   return (
@@ -29,5 +29,6 @@ function Home() {
     </Container>
   );
 }
+
 
 export default Home;
