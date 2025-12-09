@@ -7,7 +7,7 @@ function ProductCard({ product }) {
     <div className="product-card">
       {/*IMAGEN*/}
       <img
-        src={product.imagenUrl || "/placeholder.webp"}
+        src={product.imagenUrl || "/placeholder.webp1"}
         alt={product.nombre}
         className="card-img"
       />

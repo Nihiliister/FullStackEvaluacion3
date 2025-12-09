@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://kathub-xz8v.onrender.com/api/productos";
+const API_URL = "http://localhost:8080/api/productos";
 
 export async function getProducts() {
   try {

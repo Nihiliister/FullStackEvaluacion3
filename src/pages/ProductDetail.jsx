@@ -65,7 +65,7 @@ function ProductDetail() {
             <Row>
                 <Col md={8}>
                     <Card className="mb-4">
-                        <Image
+                        <img
                             src={imageSrc}
                             alt={product.nombre}
                             className="w-100"
@@ -110,7 +110,7 @@ function ProductDetail() {
                     return (
                         <Col md={3} sm={6} xs={12} key={item.id}>
                             <Card className="mb-3">
-                                <Image
+                                <img
                                     src={otherImageSrc}
                                     alt={item.nombre}
                                     className="w-100"

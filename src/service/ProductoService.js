@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiProd = 'https://kathub-xz8v.onrender.com/api/productos' 
+const apiProd = 'http://localhost:8080/api/productos' 
 
 
 class ProductoService {
